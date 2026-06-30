@@ -1,5 +1,7 @@
-# This is the modified version of LLamaFactory version 0.9.3.dev0 for SMILE-Next Mixture-of-Laugh-Experts Tuning.
-Especially, use_moelora config is added to effectively switch LoRA and MoLE.
+# This is the modified version of LLamaFactory version 0.9.3.dev0 
+### Modified for SMILE-Next Mixture-of-Laugh-Experts Tuning
+<!-- 여기에 어디 modified 되었는지 쓰기 -->
+
 ![# LLaMA Factory](assets/logo.png)
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/hiyouga/LLaMA-Factory?style=social)](https://github.com/hiyouga/LLaMA-Factory/stargazers)
