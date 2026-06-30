@@ -16,6 +16,10 @@ import re
 from typing import TYPE_CHECKING
 
 import torch
+import os, sys
+# sys.path.append('/home/mok/module/vlmtune/LLaMA-Factory/src/llamafactory/model/mok_loramoe.py')
+# from mok_loramoe import LoraConfig, LoraModel, PeftModel, TaskType
+# from peft import get_peft_model
 from peft import LoraConfig, LoraModel, PeftModel, TaskType, get_peft_model
 from transformers.integrations import is_deepspeed_zero3_enabled
 
@@ -225,9 +229,13 @@ def _setup_lora_tuning(
             "lora_alpha": finetuning_args.lora_alpha,
             "lora_dropout": finetuning_args.lora_dropout,
             "use_rslora": finetuning_args.use_rslora,
+            "use_moelora": finetuning_args.use_moelora if hasattr(finetuning_args, "use_moelora") else False,
             "use_dora": finetuning_args.use_dora,
             "modules_to_save": finetuning_args.additional_target,
         }
+        
+        if peft_kwargs["use_moelora"] is False:
+            del peft_kwargs["use_moelora"]
 
         if model_args.use_unsloth:
             model = get_unsloth_peft_model(model, model_args, peft_kwargs)

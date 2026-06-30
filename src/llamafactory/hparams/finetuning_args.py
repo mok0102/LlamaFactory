@@ -104,6 +104,10 @@ class LoraArguments:
         default=False,
         metadata={"help": "Whether or not to use the weight-decomposed lora method (DoRA)."},
     )
+    use_moelora: bool = field(
+        default=False,
+        metadata={"help": "Whether or not to use the weight-decomposed lora method (DoRA)."},
+    )
     pissa_init: bool = field(
         default=False,
         metadata={"help": "Whether or not to initialize a PiSSA adapter."},
@@ -455,7 +459,7 @@ class FinetuningArguments(
         self.apollo_target: list[str] = split_arg(self.apollo_target)
         self.use_ref_model = self.stage == "dpo" and self.pref_loss not in ["orpo", "simpo"]
 
-        assert self.finetuning_type in ["lora", "freeze", "full"], "Invalid fine-tuning method."
+        assert self.finetuning_type in ["lora", "moelora", "freeze", "full"], "Invalid fine-tuning method."
         assert self.ref_model_quantization_bit in [None, 8, 4], "We only accept 4-bit or 8-bit quantization."
         assert self.reward_model_quantization_bit in [None, 8, 4], "We only accept 4-bit or 8-bit quantization."
 

@@ -219,7 +219,8 @@ class MMPluginMixin:
         if total_frames == 0:  # infinite video
             return np.linspace(0, video_maxlen - 1, video_maxlen).astype(np.int32)
 
-        sample_frames = math.floor(float(video_stream.duration * video_stream.time_base) * video_fps)
+        # sample_frames = math.floor(float(video_stream.duration * video_stream.time_base) * video_fps)
+        sample_frames = max(1, math.floor(float(video_stream.duration * video_stream.time_base) * video_fps)) # at least sample 1 frame)
         sample_frames = min(total_frames, video_maxlen, sample_frames)
         return np.linspace(0, total_frames - 1, sample_frames).astype(np.int32)
 
@@ -1055,7 +1056,8 @@ class MiniCPMVPlugin(BasePlugin):
                 chunk_input=True,
                 sampling_rate=getattr(processor, "audio_sampling_rate", 16000),
             )
-            audio_feature_lens = [torch.tensor(audio_feature_len) for audio_feature_len in audio_feature_lens]
+            # audio_feature_lens = [torch.tensor(audio_feature_len) for audio_feature_len in audio_feature_lens]
+            audio_feature_lens = [audio_feature_len.clone().detach() for audio_feature_len in audio_feature_lens]
             mm_inputs.update({"audio_features": audio_features, "audio_feature_lens": audio_feature_lens})
             if kwargs.get("ret_phs", False):
                 mm_inputs.update({"audio_phs": audio_phs})
@@ -1088,6 +1090,10 @@ class MiniCPMVPlugin(BasePlugin):
             image_start_tokens += 1
             image_end_tokens = torch.where(end_cond)[0]
             valid_image_nums_ls.append(imglens[i])
+            if image_start_tokens.shape!=image_end_tokens.shape:
+                print('length different', image_start_tokens.shape, image_end_tokens.shape)
+                image_start_tokens = image_start_tokens[:-1] ## 다행히 보통 하나정도 차이나네 ㅎㅎ
+            # import pdb; pdb.set_trace()
             image_bounds = torch.hstack(
                 [
                     image_start_tokens.unsqueeze(-1),
@@ -1548,6 +1554,11 @@ class Qwen2OmniPlugin(Qwen2VLPlugin):
                 video_fps=getattr(processor, "video_fps", 2.0),
                 video_maxlen=getattr(processor, "video_maxlen", 128),
             )
+            
+            # for iiii in range(len(video_dict["videos"])):
+            #     print('here', iiii, videos[iiii]),
+            #     output = image_processor(images=None, videos=[video_dict["videos"][iiii]], return_tensors="pt")
+            #     print(iiii, 'output done')
             mm_inputs.update(image_processor(images=None, videos=video_dict["videos"], return_tensors="pt"))
             temporal_patch_size: int = getattr(image_processor, "temporal_patch_size", 2)
             mm_inputs["video_second_per_grid"] = torch.tensor(

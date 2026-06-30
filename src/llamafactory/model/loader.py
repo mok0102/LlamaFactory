@@ -66,6 +66,7 @@ def _get_init_kwargs(model_args: "ModelArguments") -> dict[str, Any]:
     model_args.model_name_or_path = try_download_model_from_other_hub(model_args)
     return {
         "trust_remote_code": model_args.trust_remote_code,
+        "trust_remote_code": True,
         "cache_dir": model_args.cache_dir,
         "revision": model_args.model_revision,
         "token": model_args.hf_hub_token,
@@ -102,12 +103,20 @@ def load_tokenizer(model_args: "ModelArguments") -> "TokenizerModule":
         patch_processor(processor, tokenizer, model_args)
     except Exception as e:
         logger.debug(f"Failed to load processor: {e}.")
+        # logger.debug("!!!!!!!!!!!!!! this is for Qwen2.5-VL-7B-Instruct")
+        # processor = AutoProcessor.from_pretrained('Qwen/Qwen2.5-VL-7B-Instruct', **init_kwargs)
         processor = None
+    
+    if processor is None:
+        print('processor not loaded.')
+        import sys; sys.exit()
 
     # Avoid load tokenizer, see:
     # https://github.com/huggingface/transformers/blob/v4.40.0/src/transformers/models/auto/processing_auto.py#L324
+    ##### Qwen2.5-VL 돌릴때는 이거 주석하기!!!
     if processor is not None and "Processor" not in processor.__class__.__name__:
         logger.debug("The loaded processor is not an instance of Processor. Dropping it.")
+        logger.debug("------------------------------------------------------")
         processor = None
 
     return {"tokenizer": tokenizer, "processor": processor}

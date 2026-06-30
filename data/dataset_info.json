@@ -81,6 +81,21 @@
       "assistant_tag": "assistant"
     }
   },
+  "smilenext_video_audio": {
+    "file_name": "/node_data/hyun/data/task/files/all/uttrel_llamafactory/allinst_train_uttrel_mix_new_laughtype_norev_r_revise2_video_llamafactory.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages",
+      "videos": "videos",
+      "audios": "audios"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
   "alpaca_en": {
     "hf_hub_url": "llamafactory/alpaca_en",
     "ms_hub_url": "llamafactory/alpaca_en",

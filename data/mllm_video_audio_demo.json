@@ -11,10 +11,10 @@
       }
     ],
     "videos": [
-      "mllm_demo_data/4.mp4"
+      "/home/mok/module/plotopt/LLaMA-Factory/data/mllm_demo_data/4.mp4"
     ],
     "audios": [
-      "mllm_demo_data/4.mp3"
+      "/home/mok/module/plotopt/LLaMA-Factory/data/mllm_demo_data/4.mp3"
     ]
   },
   {
@@ -29,10 +29,10 @@
       }
     ],
     "videos": [
-      "mllm_demo_data/4.mp4"
+      "/home/mok/module/plotopt/LLaMA-Factory/data/mllm_demo_data/4.mp4"
     ],
     "audios": [
-      "mllm_demo_data/4.mp3"
+      "/home/mok/module/plotopt/LLaMA-Factory/data/mllm_demo_data/4.mp3"
     ]
   },
   {
@@ -47,10 +47,10 @@
       }
     ],
     "videos": [
-      "mllm_demo_data/4.mp4"
+      "/home/mok/module/plotopt/LLaMA-Factory/data/mllm_demo_data/4.mp4"
     ],
     "audios": [
-      "mllm_demo_data/4.mp3"
+      "/home/mok/module/plotopt/LLaMA-Factory/data/mllm_demo_data/4.mp3"
     ]
   }
 ]
